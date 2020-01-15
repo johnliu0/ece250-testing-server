@@ -1,3 +1,7 @@
+# ECE250 Testing Server
+# For the Winter 2020 term.
+# Author: John Liu
+
 import os
 import subprocess
 import uuid
