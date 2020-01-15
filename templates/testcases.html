@@ -1,0 +1,29 @@
+{% if all_passed %}
+  <h1>All test cases sucessfully passed!</h1>
+{% else %}
+  <h1>Not all test cases successfully passed</h1>
+{% endif %}
+
+{% for num, expected_output, actual_output, success in test_cases %}
+  <h1>Test Case {{num}}</h1>
+
+  <h2>Expected</h2>
+  <p>
+    {% for line in expected_output %}
+      {{line}}<br>
+    {% endfor %}
+  </p>
+
+  <h2>Actual</h2>
+  <p>
+    {% for line in actual_output %}
+      {{line}}<br>
+    {% endfor %}
+  </p>
+
+  {% if success %}
+    <h1>Success!</h1>
+  {% else %}
+    <h1>Fail</h1>
+  {% endif %}
+{% endfor %}
