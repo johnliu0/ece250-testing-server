@@ -93,8 +93,6 @@ def upload_files():
         test_case_data.append((test_case_num, expected_output_lines, actual_output_lines, success))
         test_case_num += 1
 
-    print(test_case_data)
-
     # remove temp dir and its contents
     shutil.rmtree(temp_dir)
 
