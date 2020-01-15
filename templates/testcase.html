@@ -1,0 +1,21 @@
+<h1>Expected</h1>
+
+<p>
+{% for line in expected %}
+  {{ line }}<br>
+{% endfor %}
+</p>
+
+<h1>Actual</h1>
+
+<p>
+{% for line in actual %}
+  {{ line }}<br>
+{% endfor %}
+</p>
+
+{% if success %}
+  <h1>Success!</h1>
+{% else %}
+  <h1>Fail!</h1>
+{% endif %}
