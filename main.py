@@ -15,10 +15,21 @@ app.config['UPLOAD_DIR'] = os.path.expanduser('~')
 
 @app.route('/')
 def index():
+    """
+    Homepage.
+    """
+
     return render_template('index.html')
 
-@app.route('/upload', methods=['POST'])
-def upload_files():
+@app.route('/upload/<project_num>', methods=['POST'])
+def upload_files(project_num):
+    """
+    Endpoint for receiving source files.
+    """
+
+    if project_num != '0':
+        return f'Project {project_num} does not exist'
+
     if 'src' not in request.files:
         return 'name of files should be src'
 
@@ -104,3 +115,14 @@ def upload_files():
         'testcases.html',
         test_cases=test_case_data,
         all_passed=all_passed)
+
+@app.route('/projects/<project_num>', methods=['GET'])
+def projects(project_num):
+    """
+    Page for uploading source files.
+    """
+
+    if project_num != '0':
+        return f'Project {project_num} does not exist'
+    if project_num == '0':
+        return render_template('project.html', project_num=0)
