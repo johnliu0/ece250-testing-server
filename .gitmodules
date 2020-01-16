@@ -1,0 +1,4 @@
+[submodule "ECE250-testCases"]
+	path = ECE250-testCases
+	url = git@github.com:ece23/ECE250-testCases.git
+	branch = master
