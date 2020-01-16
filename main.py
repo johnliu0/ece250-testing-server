@@ -56,15 +56,28 @@ def upload_files():
             'compilefail.html',
             error=err)
 
+    # computes an array of (testXX.in, testXX.out) pairs.
+    def get_testcases_for_project(project):
+        p = os.path.join('ECE250-testCases', project)
+        files = [f for f in os.listdir(p) if os.path.isfile(os.path.join(p, f))]
+        files.sort()
+        ret = []
+        if len(files) % 2 != 0:
+            return ret
+        it = iter(files)
+        for curr in it:
+            ret.append((curr, next(it)))
+        return ret
+
     # iterate through each test case and compare with program output
     test_case_data = []
-    test_case_files = [('test1.in', 'test1.out'), ('test2.in', 'test2.out'), ('test3.in', 'test3.out')]
+    test_case_files = get_testcases_for_project('p0')
     test_case_num = 1
     all_passed = True
     for test_case_in_file, test_case_out_file in test_case_files:
         # pipe testcase to program
         test_case_in = subprocess.Popen(
-            ['cat', os.path.join('testcases', 'p0', test_case_in_file)],
+            ['cat', os.path.join('ECE250-testCases', 'p0', test_case_in_file)],
             universal_newlines=True,
             stdout=subprocess.PIPE)
         test_case_in.wait()
@@ -82,7 +95,7 @@ def upload_files():
         expected_output_lines = []
         actual_output_lines = []
         success = True
-        with open(os.path.join('testcases', 'p0', test_case_out_file)) as test_case_out:
+        with open(os.path.join('ECE250-testCases', 'p0', test_case_out_file)) as test_case_out:
             # compare test case output and program output line by line
             while True:
                 test_case_line = test_case_out.readline()
