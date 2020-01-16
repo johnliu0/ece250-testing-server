@@ -5,3 +5,9 @@ Simple server for automatic project test case checking written in Python and Fla
 I am currently running this testing server at http://142.93.152.112/.
 
 The crowdsourced test cases can be found at https://github.com/ece23/ECE250-testCases.
+
+To clone, `git clone --recursive git@github.com:johnliu4/ece250-testing-server.git`.
+
+Additional thanks to:
+Morgan Gallant, https://github.com/morgangallant
+for his help with guiding this project!
