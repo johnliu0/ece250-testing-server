@@ -1,17 +1,22 @@
-<!doctype html>
-<html>
-<head>
-  <title>ECE250 (Winter 2020) Testing Server</title>
-</head>
+{% extends 'base.html' %}
+{% block content %}
 
-<body>
-  <p><em>Please do not mess up my testing server. This ruins it for everybody. Thanks!</em></p>
-  <h1>ECE250 (Winter 2020) Testing Server</h1>
-  <p>Select and upload all relevant files (*.cpp, *.h, Makefile).</p>
+<p><em>Please do not mess up my testing server. This ruins it for everybody. Thanks!</em></p>
+<h1>ECE250 (Winter 2020) Testing Server</h1>
 
-  <form enctype="multipart/form-data" action="/upload" method="post">
-    <input type="file" name="src" multiple />
-    <input type="submit" name="submit" />
-  </form>
-</body>
-<html>
+<p>
+  Hi. Feel free to use this server to test your ECE 250 projects. You can upload
+  your source code and it will be automatically compiled and compared against
+  various test cases. You can contribute to the test cases at
+  <a href="https://github.com/ece23/ECE250-testCases" target="_blank" rel="noopener noreferrer">https://github.com/ece23/ECE250-testCases</a>.
+  Anyone is free to contribute to the development of test cases!
+</p>
+
+<p>
+  Author: John Liu
+</p>
+
+<p>Choose the project you want to test:</p>
+<a href="{{ url_for('projects', project_num=0) }}">p0</a>
+
+{% endblock %}
