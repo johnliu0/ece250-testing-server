@@ -6,6 +6,7 @@ import os
 import subprocess
 import uuid
 import shutil
+import tarfile
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
@@ -38,10 +39,50 @@ def upload_files(project_num):
     temp_dir = os.path.join(app.config['UPLOAD_DIR'], temp_dir_name)
     os.mkdir(temp_dir)
 
+    # remove temp dir and its contents
+    def clean_temp_dir():
+        shutil.rmtree(temp_dir)
+
+    # check if a file has an allowed extension
+    def is_file_ext_valid(filename, allowed_extensions):
+        idx_dot = filename.rfind('.')
+        return idx_dot != -1 and filename[idx_dot:].lower() in allowed_extensions
+
     # save all uploaded files to temp folder
-    for file in request.files.getlist('src'):
+    uploaded_files = request.files.getlist('src')
+    for file in uploaded_files:
         filename = secure_filename(file.filename)
-        file.save(os.path.join(temp_dir, filename))
+        # allow .gz, .cpp, and .h files, and makefile
+        if (is_file_ext_valid(filename, ['.gz', '.cpp', '.h'])
+            or filename.lower() == 'makefile'):
+            file.save(os.path.join(temp_dir, filename))
+
+    # if one file was uploaded, the user should be trying to
+    # upload a .tar.gz containing their source code
+    if len(uploaded_files) == 1:
+        try:
+            tarfile_path = os.path.join(temp_dir, secure_filename(uploaded_files[0].filename))
+            # check if the file is valid; is_tarfile returns a boolean and may raise an exception
+            if not tarfile.is_tarfile(tarfile_path):
+                raise
+            tar_obj = tarfile.open(tarfile_path)
+            # extract all .cpp, .h, files and makefile from tar
+            valid_files = []
+            for file in tar_obj.getmembers():
+                # do not allow malicious file names
+                if file.name != secure_filename(file.name):
+                    continue
+                if (is_file_ext_valid(file.name, ['.cpp', '.h'])
+                    or file.name.lower() == 'makefile'):
+                    valid_files.append(file)
+            print(valid_files)
+
+            # extract tar to temp dir
+            tar_obj.extractall(path=temp_dir, members=valid_files)
+        except Exception as e:
+            print(e)
+            clean_temp_dir()
+            return 'invalid .tar.gz'
 
     # run make
     make_process = subprocess.Popen(
@@ -54,8 +95,7 @@ def upload_files(project_num):
 
     # check for compilation error
     if make_process.returncode != 0:
-        # remove temp dir and its contents
-        shutil.rmtree(temp_dir)
+        clean_temp_dir()
         stderr = make_process.stderr
         err = []
         while True:
@@ -121,8 +161,7 @@ def upload_files(project_num):
         test_case_data.append((test_case_num, expected_output_lines, actual_output_lines, success))
         test_case_num += 1
 
-    # remove temp dir and its contents
-    shutil.rmtree(temp_dir)
+    clean_temp_dir()
 
     return render_template(
         'testcases.html',

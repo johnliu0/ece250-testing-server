@@ -5,8 +5,16 @@
 <h1>ECE250 (Winter 2020) Testing Server</h1>
 <p></p>
 
-<p>Select and upload all relevant files (*.cpp, *.h, Makefile). Do not upload any folders or compressed files. Make sure that
-the executable filename is <strong>playlistdriver</strong>.</p>
+<p>You may submit your source code for automated testing through one of two ways:
+  <ol>
+    <li>Upload your .tar.gz file</li>
+    <li>Upload all *.cpp, *.h files and your Makefile simultaneously.</li>
+  </ol>
+
+  Only .cpp, .h files and the Makefile will be used in the compilation process.
+  Make sure that the the executable filename is <strong>playlistdriver</strong>.
+</p>
+
 <form enctype="multipart/form-data" action="/upload/{{ project_num }}" method="post">
   <input type="file" name="src" multiple />
   <input type="submit" name="submit" />
