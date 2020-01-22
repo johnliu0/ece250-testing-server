@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Sign up</h1>
+
+<form enctype="multipart/form-data" action="/auth/signup" method="post">
+  Email<br>
+  <input type="email" name="email" /><br>
+  Password<br>
+  <input type="password" name="password" /><br>
+  Confirm Password<br>
+  <input type="password" name="confirmPassword" /><br>
+  {% if error %}
+    {{ error }}<br>
+  {% endif %}
+  <input type="submit" value="Sign Up">
+</form>
+
+{% endblock %}

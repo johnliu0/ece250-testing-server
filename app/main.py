@@ -7,12 +7,27 @@ import subprocess
 import uuid
 import shutil
 import tarfile
-from flask import Flask, render_template, request, redirect, url_for
+import logging
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session)
 from werkzeug.utils import secure_filename
 
+import db
+import auth
+
+"""Entry point for app."""
+logging.basicConfig(filename='logs.txt')
 app = Flask(__name__)
+app.config.from_envvar('CFG_FILE')
 # directory for where temporary files will be placed
 app.config['UPLOAD_DIR'] = os.path.expanduser('~')
+app.register_blueprint(auth.bp)
+db.init()
 
 @app.route('/')
 def index():
@@ -20,7 +35,7 @@ def index():
     Homepage.
     """
 
-    return render_template('index.html')
+    return render_template('index.html', auth=session.get('auth', {}))
 
 @app.route('/upload/<project_num>', methods=['POST'])
 def upload_files(project_num):
@@ -75,12 +90,10 @@ def upload_files(project_num):
                 if (is_file_ext_valid(file.name, ['.cpp', '.h'])
                     or file.name.lower() == 'makefile'):
                     valid_files.append(file)
-            print(valid_files)
 
             # extract tar to temp dir
             tar_obj.extractall(path=temp_dir, members=valid_files)
         except Exception as e:
-            print(e)
             clean_temp_dir()
             return 'invalid .tar.gz'
 
