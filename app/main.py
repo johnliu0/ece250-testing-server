@@ -37,14 +37,22 @@ def index():
 
     return render_template('index.html', auth=session.get('auth', {}))
 
-@app.route('/upload/<project_num>', methods=['POST'])
-def upload_files(project_num):
+@app.route('/projects/<project_num>', methods=['GET', 'POST'])
+def projects(project_num):
     """
-    Endpoint for receiving source files.
+    Endpoint project testing page.
     """
 
-    if project_num != '0':
+    try:
+        # try to convert project_num to integer
+        project_num = int(project_num)
+        if project_num < 0 or project_num > 1:
+            raise
+    except:
         return f'Project {project_num} does not exist'
+
+    if request.method == 'GET':
+        return render_template('project.html', project_num=project_num)
 
     if 'src' not in request.files:
         return 'name of files should be src'
@@ -133,20 +141,30 @@ def upload_files(project_num):
             ret.append((curr, next(it)))
         return ret
 
+    # get name of project; this should also be the name of the folder
+    # where the relevant test cases are
+    project_name = f'p{project_num}'
+
+    # names of the executables for the projects, where the index of the
+    # executable is the project number
+    executable_names = ['playlistdriver', 'dequedriver'];
+
+    print(project_name);
+
     # iterate through each test case and compare with program output
     test_case_data = []
-    test_case_files = get_testcases_for_project('p0')
+    test_case_files = get_testcases_for_project(project_name)
     test_case_num = 1
     all_passed = True
     for test_case_in_file, test_case_out_file in test_case_files:
         # pipe testcase to program
         test_case_in = subprocess.Popen(
-            ['cat', os.path.join('ECE250-testCases', 'p0', test_case_in_file)],
+            ['cat', os.path.join('ECE250-testCases', project_name, test_case_in_file)],
             universal_newlines=True,
             stdout=subprocess.PIPE)
         test_case_in.wait()
         test_process = subprocess.Popen(
-            './playlistdriver',
+            f'./{executable_names[project_num]}',
             shell=True,
             cwd=temp_dir,
             stdin=test_case_in.stdout,
@@ -159,7 +177,7 @@ def upload_files(project_num):
         expected_output_lines = []
         actual_output_lines = []
         success = True
-        with open(os.path.join('ECE250-testCases', 'p0', test_case_out_file)) as test_case_out:
+        with open(os.path.join('ECE250-testCases', project_name, test_case_out_file)) as test_case_out:
             # compare test case output and program output line by line
             while True:
                 test_case_line = test_case_out.readline()
@@ -180,14 +198,3 @@ def upload_files(project_num):
         'testcases.html',
         test_cases=test_case_data,
         all_passed=all_passed)
-
-@app.route('/projects/<project_num>', methods=['GET'])
-def projects(project_num):
-    """
-    Page for uploading source files.
-    """
-
-    if project_num != '0':
-        return f'Project {project_num} does not exist'
-    if project_num == '0':
-        return render_template('project.html', project_num=0)
