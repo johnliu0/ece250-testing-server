@@ -1,4 +1,5 @@
 **/__pycache__
 **/.DS_Store
 app/.cfg
+.logs.txt
 ECE250-testCases
