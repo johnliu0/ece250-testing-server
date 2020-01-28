@@ -1,1 +1,1 @@
-import app.main
+from app.main import flask_app
