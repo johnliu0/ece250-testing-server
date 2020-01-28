@@ -17,19 +17,19 @@ from flask import (
     session)
 from werkzeug.utils import secure_filename
 
-import db
-import auth
+import app.db as db
+import app.auth as auth
 
 """Entry point for app."""
 logging.basicConfig(filename='logs.txt')
-app = Flask(__name__)
-app.config.from_envvar('CFG_FILE')
+flask_app = Flask(__name__)
+flask_app.config.from_envvar('CFG_FILE')
 # directory for where temporary files will be placed
-app.config['UPLOAD_DIR'] = os.path.expanduser('~')
-app.register_blueprint(auth.bp)
+flask_app.config['UPLOAD_DIR'] = os.path.expanduser('~')
+flask_app.register_blueprint(auth.bp)
 db.init()
 
-@app.route('/')
+@flask_app.route('/')
 def index():
     """
     Homepage.
@@ -37,7 +37,7 @@ def index():
 
     return render_template('index.html', auth=session.get('auth', {}))
 
-@app.route('/projects/<project_num>', methods=['GET', 'POST'])
+@flask_app.route('/projects/<project_num>', methods=['GET', 'POST'])
 def projects(project_num):
     """
     Endpoint project testing page.
@@ -59,7 +59,7 @@ def projects(project_num):
 
     # generate a temporary unique folder for file upload
     temp_dir_name = str(uuid.uuid1())
-    temp_dir = os.path.join(app.config['UPLOAD_DIR'], temp_dir_name)
+    temp_dir = os.path.join(flask_app.config['UPLOAD_DIR'], temp_dir_name)
     os.mkdir(temp_dir)
 
     # remove temp dir and its contents
@@ -148,8 +148,6 @@ def projects(project_num):
     # names of the executables for the projects, where the index of the
     # executable is the project number
     executable_names = ['playlistdriver', 'dequedriver'];
-
-    print(project_name);
 
     # iterate through each test case and compare with program output
     test_case_data = []

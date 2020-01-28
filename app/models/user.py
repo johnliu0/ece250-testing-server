@@ -1,6 +1,6 @@
 import os
 import hashlib
-import db
+import app.db
 from pymodm import MongoModel, fields
 
 
