@@ -1,0 +1,57 @@
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:30] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:52] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:52] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:52] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:52] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:53] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:28:53] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:03] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:03] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:03] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:03] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:04] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:04] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:06] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:07] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:25] "[1m[35mGET / HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:25] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:25] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:25] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:26] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:32:26] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/johnliu/Projects/ece250-testing-server/server.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:34:50] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:34:52] "[37mGET /projects/1 HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:35:00] "[37mPOST /projects/1 HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/johnliu/Projects/ece250-testing-server/app/main.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:127.0.0.1 - - [29/Jan/2020 15:38:51] "[37mGET / HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Detected change in '/Users/johnliu/Projects/ece250-testing-server/app/main.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Detected change in '/Users/johnliu/Projects/ece250-testing-server/app/main.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat

@@ -11,7 +11,8 @@ from flask import (
     url_for)
 from bson.json_util import dumps
 from werkzeug.security import check_password_hash, generate_password_hash
-import app.db
+
+from app import db
 from app.models.user import User, create_user
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
