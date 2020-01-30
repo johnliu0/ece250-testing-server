@@ -6,10 +6,10 @@ import os
 from flask import (
     current_app as flask_app,
     render_template,
+    g,
     url_for,
     session)
-from app import db, auth
-from app.projects import projects
+from app import db, auth, projects, users
 
 """Initialize server."""
 # directory for where temporary files will be placed
@@ -19,10 +19,13 @@ db.init()
 @flask_app.route('/')
 def index():
     """Homepage."""
-    return render_template('index.html', auth=session.get('auth', {}))
+    return render_template('index.html')
 
 """/auth"""
 flask_app.register_blueprint(auth.bp)
 
 """/projects"""
 flask_app.register_blueprint(projects.bp)
+
+"""/users"""
+flask_app.register_blueprint(users.bp)

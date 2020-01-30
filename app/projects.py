@@ -3,12 +3,16 @@ import subprocess
 import uuid
 import shutil
 import tarfile
+from datetime import datetime
 from flask import (
     Blueprint,
     current_app as flask_app,
     render_template,
-    request)
+    request,
+    g)
 from werkzeug.utils import secure_filename
+from models.user import User
+from models.submission import Submission
 
 bp = Blueprint('projects', __name__, url_prefix='/projects')
 
@@ -27,7 +31,13 @@ def projects(project_num):
         return f'Project {project_num} does not exist'
 
     if request.method == 'GET':
-        return render_template('project.html', project_num=project_num)
+        if g.auth['isAuthenticated']:
+            user = User.objects.get({ 'email': g.auth['user']['email'] })
+            return render_template('project.html',
+                project_num=project_num,
+                submissions=user.submissions)
+        else:
+            return render_template('project.html', project_num=project_num)
 
     if 'src' not in request.files:
         return 'name of files should be src'
@@ -128,7 +138,8 @@ def projects(project_num):
     test_case_data = []
     test_case_files = get_testcases_for_project(project_name)
     test_case_num = 1
-    all_passed = True
+    num_testcases = len(test_case_files)
+    num_passed = 0
     for test_case_in_file, test_case_out_file in test_case_files:
         # pipe testcase to program
         test_case_in = subprocess.Popen(
@@ -156,18 +167,29 @@ def projects(project_num):
                 test_case_line = test_case_out.readline()
                 prog_output_line = prog_output.readline()
                 if test_case_line == '' and prog_output_line == '':
+                    if success:
+                        num_passed += 1
                     break
                 if test_case_line != prog_output_line:
                     success = False
-                    all_passed = False
                 expected_output_lines.append(test_case_line)
                 actual_output_lines.append(prog_output_line)
         test_case_data.append((test_case_num, expected_output_lines, actual_output_lines, success))
         test_case_num += 1
-
     clean_temp_dir()
+
+    # save submission if user is logged in
+    if g.auth['isAuthenticated']:
+        submission = Submission(
+            created_date=datetime.now(),
+            num_testcases=num_testcases,
+            num_passed=num_passed,
+            num_failed=num_testcases-num_passed).save()
+        user = User.objects.get({ 'email': g.auth['user']['email'] })
+        user.submissions.append(submission)
+        user.save()
 
     return render_template(
         'testcases.html',
         test_cases=test_case_data,
-        all_passed=all_passed)
+        all_passed=num_passed==num_testcases)

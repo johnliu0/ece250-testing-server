@@ -1,0 +1,7 @@
+{% if g.auth.isAuthenticated %}
+  <span>Currently logged in as: {{ g.auth.user.email }}</span>
+  <a href="{{ url_for('auth.logout') }}">Logout</a>
+{% else %}
+  <a href="{{ url_for('auth.login') }}">Login</a>
+  <a href="{{ url_for('auth.signup') }}">Signup</a>
+{% endif %}

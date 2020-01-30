@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{# {% include 'navbar.html' %} #}
+
 <p><em>Please do not mess up my testing server. This ruins it for everybody. Thanks!</em></p>
 <h1>ECE250 (Winter 2020) Testing Server Project {{ project_num }}</h1>
 <p></p>
@@ -19,5 +21,14 @@
   <input type="file" name="src" multiple />
   <input type="submit" name="submit" />
 </form>
+
+{#
+{% if g.auth.isAuthenticated %}
+  <h2>Your Previous Testcases</h2>
+  {% for sub in submissions %}
+    {{ sub.created_date }} - passed: {{ sub.num_passed }}/{{sub.num_testcases}}<br>
+  {% endfor %}
+{% endif %}
+#}
 
 {% endblock %}

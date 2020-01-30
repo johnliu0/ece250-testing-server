@@ -13,6 +13,7 @@ from flask import Flask
 
 flask_app = Flask(__name__)
 flask_app.config.from_envvar('CFG_FILE')
+flask_app.secret_key = flask_app.config['FLASK_SECRET_KEY']
 
 with flask_app.app_context():
     import app.main
