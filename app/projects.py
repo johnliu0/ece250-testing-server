@@ -1,5 +1,7 @@
+from typing import List
 import os
 import subprocess
+from subprocess import TimeoutExpired
 import uuid
 import shutil
 import tarfile
@@ -155,7 +157,14 @@ def projects(project_num):
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
-        test_process.wait()
+
+        # attempt to run the testcase with a time limit of 0.1s
+        try:
+            test_process.wait(timeout=0.1)
+        except TimeoutExpired as e:
+            test_case_data.append(TestCaseData(
+                num=test_case_num, success=False, timed_out=True))
+            continue
         prog_output = test_process.stdout
 
         expected_output_lines = []
@@ -174,7 +183,10 @@ def projects(project_num):
                     success = False
                 expected_output_lines.append(test_case_line)
                 actual_output_lines.append(prog_output_line)
-        test_case_data.append((test_case_num, expected_output_lines, actual_output_lines, success))
+        test_case_data.append(TestCaseData(
+            num=test_case_num, success=True,
+            expected=expected_output_lines,
+            actual=actual_output_lines))
         test_case_num += 1
     clean_temp_dir()
 
@@ -193,3 +205,19 @@ def projects(project_num):
         'testcases.html',
         test_cases=test_case_data,
         all_passed=num_passed==num_testcases)
+
+
+class TestCaseData:
+    """Holds information about a test case."""
+
+    def __init__(self,
+                 num: int,
+                 success: bool,
+                 expected: List[str]=[],
+                 actual: List[str]=[],
+                 timed_out: bool=False):
+        self.num = num
+        self.success = success
+        self.expected = expected
+        self.actual = actual
+        self.timed_out = timed_out

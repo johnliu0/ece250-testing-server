@@ -7,34 +7,39 @@
   <h1 style="color: red;">Not all test cases successfully passed</h1>
 {% endif %}
 
-{% for num, expected_output, actual_output, success in test_cases %}
+{% for test_case in test_cases %}
   <h1>
-    Test Case {{num}}:
-    {% if success %}
+    Test Case {{ test_case.num }}:
+    {% if test_case.success %}
       <strong style="color: green;">Success!</strong>
     {% else %}
       <strong style="color: red;">Fail</strong>
     {% endif %}
   </h1>
 
-  <div class="test-case-container">
-    <div style="padding-right: 16px;">
-      <h2>Expected</h2>
-      <p>
-        {% for line in expected_output %}
-          {{line}}<br>
-        {% endfor %}
-      </p>
+  {% if test_case.timed_out %}
+    <p>Timed out</p>
+  {% else %}
+    <div class="test-case-container">
+      <div style="padding-right: 16px;">
+        <h2>Expected</h2>
+        <p>
+          {% for line in test_case.expected %}
+            {{ line }}<br>
+          {% endfor %}
+        </p>
+      </div>
+      <div>
+        <h2>Actual</h2>
+        <p>
+          {% for line in test_case.actual %}
+            {{ line }}<br>
+          {% endfor %}
+        </p>
+      </div>
     </div>
-    <div>
-      <h2>Actual</h2>
-      <p>
-        {% for line in actual_output %}
-          {{line}}<br>
-        {% endfor %}
-      </p>
-    </div>
-  </div>
+  {% endif %}
+
 {% endfor %}
 
 {% endblock %}
