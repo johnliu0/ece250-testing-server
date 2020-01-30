@@ -22,7 +22,6 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @flask_app.before_request
 def provide_auth():
     """Provides authentication details in g.user."""
-    print('hello')
     if 'auth' in session:
         g.auth = session['auth']
     else:
