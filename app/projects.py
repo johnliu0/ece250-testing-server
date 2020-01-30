@@ -63,7 +63,7 @@ def projects(project_num):
     for file in uploaded_files:
         filename = secure_filename(file.filename)
         # allow .gz, .cpp, and .h files, and makefile
-        if (is_file_ext_valid(filename, ['.gz', '.cpp', '.h'])
+        if (is_file_ext_valid(filename, ['.gz', '.cpp', '.h', '.hpp'])
             or filename.lower() == 'makefile'):
             file.save(os.path.join(temp_dir, filename))
 
@@ -82,7 +82,7 @@ def projects(project_num):
                 # do not allow malicious file names
                 if file.name != secure_filename(file.name):
                     continue
-                if (is_file_ext_valid(file.name, ['.cpp', '.h'])
+                if (is_file_ext_valid(file.name, ['.cpp', '.h', '.hpp'])
                     or file.name.lower() == 'makefile'):
                     valid_files.append(file)
 
