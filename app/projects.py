@@ -139,7 +139,7 @@ def projects(project_num):
     # iterate through each test case and compare with program output
     test_case_data = []
     test_case_files = get_testcases_for_project(project_name)
-    test_case_num = 1
+    test_case_num = 0
     num_testcases = len(test_case_files)
     num_passed = 0
     for test_case_in_file, test_case_out_file in test_case_files:
@@ -157,6 +157,7 @@ def projects(project_num):
             universal_newlines=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
+        test_case_num += 1
 
         # attempt to run the testcase with a time limit of 0.1s
         try:
@@ -187,7 +188,6 @@ def projects(project_num):
             num=test_case_num, success=True,
             expected=expected_output_lines,
             actual=actual_output_lines))
-        test_case_num += 1
     clean_temp_dir()
 
     # save submission if user is logged in
