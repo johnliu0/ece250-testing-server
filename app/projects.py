@@ -159,9 +159,9 @@ def projects(project_num):
             stderr=subprocess.PIPE)
         test_case_num += 1
 
-        # attempt to run the test case with a time limit of 0.1s
+        # attempt to run the test case with a time limit of 0.5s
         try:
-            test_process.wait(timeout=0.1)
+            test_process.wait(timeout=0.5)
         except TimeoutExpired as e:
             test_case_data.append(TestCaseData(
                 num=test_case_num,
