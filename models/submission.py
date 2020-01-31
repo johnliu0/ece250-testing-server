@@ -4,7 +4,8 @@ from pymodm import MongoModel, fields
 
 class Submission(MongoModel):
     created_date = fields.DateTimeField()
-    num_testcases = fields.IntegerField()
+    project_name = fields.CharField()
+    num_test_cases = fields.IntegerField()
     num_passed = fields.IntegerField()
     num_failed = fields.IntegerField()
 

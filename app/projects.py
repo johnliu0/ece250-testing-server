@@ -116,7 +116,7 @@ def projects(project_num):
             error=err)
 
     # computes an array of (testXX.in, testXX.out) pairs.
-    def get_testcases_for_project(project):
+    def get_test_cases_for_project(project):
         p = os.path.join('ECE250-testCases', project)
         files = [f for f in os.listdir(p) if os.path.isfile(os.path.join(p, f))]
         files.sort()
@@ -138,12 +138,12 @@ def projects(project_num):
 
     # iterate through each test case and compare with program output
     test_case_data = []
-    test_case_files = get_testcases_for_project(project_name)
+    test_case_files = get_test_cases_for_project(project_name)
     test_case_num = 0
-    num_testcases = len(test_case_files)
+    num_test_cases = len(test_case_files)
     num_passed = 0
     for test_case_in_file, test_case_out_file in test_case_files:
-        # pipe testcase to program
+        # pipe test case to program
         test_case_in = subprocess.Popen(
             ['cat', os.path.join('ECE250-testCases', project_name, test_case_in_file)],
             universal_newlines=True,
@@ -159,12 +159,13 @@ def projects(project_num):
             stderr=subprocess.PIPE)
         test_case_num += 1
 
-        # attempt to run the testcase with a time limit of 0.1s
+        # attempt to run the test case with a time limit of 0.1s
         try:
             test_process.wait(timeout=0.1)
         except TimeoutExpired as e:
             test_case_data.append(TestCaseData(
-                num=test_case_num, success=False, timed_out=True))
+                num=test_case_num,
+                success=False, timed_out=True))
             continue
         prog_output = test_process.stdout
 
@@ -194,9 +195,10 @@ def projects(project_num):
     if g.auth['isAuthenticated']:
         submission = Submission(
             created_date=datetime.now(),
-            num_testcases=num_testcases,
+            project_name=project_name,
+            num_test_cases=num_test_cases,
             num_passed=num_passed,
-            num_failed=num_testcases-num_passed).save()
+            num_failed=num_test_cases-num_passed).save()
         user = User.objects.get({ 'email': g.auth['user']['email'] })
         user.submissions.append(submission)
         user.save()
@@ -204,7 +206,7 @@ def projects(project_num):
     return render_template(
         'testcases.html',
         test_cases=test_case_data,
-        all_passed=num_passed==num_testcases)
+        all_passed=num_passed==num_test_cases)
 
 
 class TestCaseData:

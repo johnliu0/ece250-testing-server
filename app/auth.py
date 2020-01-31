@@ -13,7 +13,7 @@ from flask import (
     g)
 from bson.json_util import dumps
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from app.emails import send_validation_email
 from app import db
 from models.user import User
 
@@ -83,6 +83,8 @@ def signup():
             validation_token=str(uuid.uuid1()),
             submissions=[]
         ).save()
+
+        print(send_validation_email(user).json())
 
         print(f'INFO: User {email} signed up')
 

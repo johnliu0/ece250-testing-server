@@ -1,3 +1,5 @@
+DOMAIN_NAME = "example.com"
+
 MONGODB_URL = "mongodb://123.456.789:27017/ece250ts"
 
 FLASK_SECRET_KEY = b'abc123'
