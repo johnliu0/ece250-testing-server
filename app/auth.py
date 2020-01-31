@@ -40,6 +40,10 @@ def login():
             user = User.objects.get({ 'email' : email })
             # check if password is correct
             if check_password_hash(user.password_hash, password):
+                # check if user email is validated
+                if len(user.validation_token) > 0:
+                    return render_template('auth/login.html', error='Email not validated')
+
                 session['auth'] = {
                     'isAuthenticated': True,
                     'user': {
@@ -95,3 +99,14 @@ def logout():
     if 'auth' in session:
         session['auth'] = { 'isAuthenticated': False }
     return render_template('auth/logoutsuccess.html')
+
+@bp.route('/verify/<token>')
+def verify_email(token):
+    try:
+        # query user and set validation token to an empty string
+        user = User.objects.get({ 'validation_token': token })
+        user.validation_token = ''
+        user.save()
+        return 'Successfully validated!'
+    except:
+        return 'User has already been validated or validation token invalid.'
