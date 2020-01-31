@@ -4,3 +4,4 @@ MONGODB_URL = "mongodb://123.456.789:27017/ece250ts"
 
 FLASK_SECRET_KEY = b'abc123'
 SENDGRID_API_KEY = "abc123"
+MAIL_DOMAIN_NAME = "mail.example.com"
