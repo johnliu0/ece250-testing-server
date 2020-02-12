@@ -146,7 +146,7 @@ def projects(project_name):
     for test_case_in_file, test_case_out_file in test_case_files:
         # pipe test case to program
         test_case_in = subprocess.Popen(
-            ['cat', os.path.join('ECE250-testCases', project_name, test_case_in_file)],
+            ['cat', os.path.join(test_cases_base_dir, project_name, test_case_in_file)],
             universal_newlines=True,
             stdout=subprocess.PIPE)
         test_case_in.wait()
