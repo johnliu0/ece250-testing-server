@@ -18,28 +18,36 @@ from models.submission import Submission
 
 bp = Blueprint('projects', __name__, url_prefix='/projects')
 
-@bp.route('/<project_num>', methods=['GET', 'POST'])
-def projects(project_num):
+# todo; move this to MongoDB
+# maps project name to executable name
+project_exec_dict = {
+    'p0': 'playlistdriver',
+    'p1': 'dequedriver',
+    'p2ordered': 'orderedhtdriver',
+    'p2open': 'openhtdriver'
+}
+
+
+# todo; move this to MongoDB
+test_cases_base_dir = 'ece250-testcases'
+
+@bp.route('/<project_name>', methods=['GET', 'POST'])
+def projects(project_name):
     """
     Endpoint project testing page.
     """
 
-    try:
-        # try to convert project_num to integer
-        project_num = int(project_num)
-        if project_num < 0 or project_num > 1:
-            raise
-    except:
-        return f'Project {project_num} does not exist'
+    if project_name not in project_exec_dict.keys():
+        return f'Project {project_name} does not exist'
 
     if request.method == 'GET':
         if g.auth['isAuthenticated']:
             user = User.objects.get({ 'email': g.auth['user']['email'] })
             return render_template('project.html',
-                project_num=project_num,
+                project_name=project_name,
                 submissions=user.submissions)
         else:
-            return render_template('project.html', project_num=project_num)
+            return render_template('project.html', project_name=project_name)
 
     if 'src' not in request.files:
         return 'name of files should be src'
@@ -53,19 +61,20 @@ def projects(project_num):
     def clean_temp_dir():
         shutil.rmtree(temp_dir)
 
-    # check if a file has an allowed extension
-    def is_file_ext_valid(filename, allowed_extensions):
-        idx_dot = filename.rfind('.')
-        return idx_dot != -1 and filename[idx_dot:].lower() in allowed_extensions
+    # todo; improve this, allow folders, etc.
+    # # check if a file has an allowed extension
+    # def is_file_ext_valid(filename, allowed_extensions):
+    #     idx_dot = filename.rfind('.')
+    #     return idx_dot != -1 and filename[idx_dot:].lower() in allowed_extensions
 
     # save all uploaded files to temp folder
     uploaded_files = request.files.getlist('src')
     for file in uploaded_files:
         filename = secure_filename(file.filename)
-        # allow .gz, .cpp, and .h files, and makefile
-        if (is_file_ext_valid(filename, ['.gz', '.cpp', '.h', '.hpp'])
-            or filename.lower() == 'makefile'):
-            file.save(os.path.join(temp_dir, filename))
+        # # allow .gz, .cpp, and .h files, and makefile
+        # if (is_file_ext_valid(filename, ['.gz', '.cpp', '.h', '.hpp'])
+        #     or filename.lower() == 'makefile'):
+        file.save(os.path.join(temp_dir, filename))
 
     # if one file was uploaded, the user should be trying to
     # upload a .tar.gz containing their source code
@@ -79,12 +88,12 @@ def projects(project_num):
             # extract all .cpp, .h, files and makefile from tar
             valid_files = []
             for file in tar_obj.getmembers():
-                # do not allow malicious file names
-                if file.name != secure_filename(file.name):
-                    continue
-                if (is_file_ext_valid(file.name, ['.cpp', '.h', '.hpp'])
-                    or file.name.lower() == 'makefile'):
-                    valid_files.append(file)
+                # # do not allow malicious file names
+                # if file.name != secure_filename(file.name):
+                #     continue
+                # if (is_file_ext_valid(file.name, ['.cpp', '.h', '.hpp'])
+                #     or file.name.lower() == 'makefile'):
+                valid_files.append(file)
 
             # extract tar to temp dir
             tar_obj.extractall(path=temp_dir, members=valid_files)
@@ -117,7 +126,7 @@ def projects(project_num):
 
     # computes an array of (testXX.in, testXX.out) pairs.
     def get_test_cases_for_project(project):
-        p = os.path.join('ECE250-testCases', project)
+        p = os.path.join(test_cases_base_dir, project)
         files = [f for f in os.listdir(p) if os.path.isfile(os.path.join(p, f))]
         files.sort()
         ret = []
@@ -127,14 +136,6 @@ def projects(project_num):
         for curr in it:
             ret.append((curr, next(it)))
         return ret
-
-    # get name of project; this should also be the name of the folder
-    # where the relevant test cases are
-    project_name = f'p{project_num}'
-
-    # names of the executables for the projects, where the index of the
-    # executable is the project number
-    executable_names = ['playlistdriver', 'dequedriver'];
 
     # iterate through each test case and compare with program output
     test_case_data = []
@@ -150,7 +151,7 @@ def projects(project_num):
             stdout=subprocess.PIPE)
         test_case_in.wait()
         test_process = subprocess.Popen(
-            f'./{executable_names[project_num]}',
+            f'./{project_exec_dict[project_name]}',
             shell=True,
             cwd=temp_dir,
             stdin=test_case_in.stdout,
@@ -172,7 +173,7 @@ def projects(project_num):
         expected_output_lines = []
         actual_output_lines = []
         success = True
-        with open(os.path.join('ECE250-testCases', project_name, test_case_out_file)) as test_case_out:
+        with open(os.path.join(test_cases_base_dir, project_name, test_case_out_file)) as test_case_out:
             # compare test case output and program output line by line
             while True:
                 test_case_line = test_case_out.readline()
@@ -186,7 +187,7 @@ def projects(project_num):
                 expected_output_lines.append(test_case_line)
                 actual_output_lines.append(prog_output_line)
         test_case_data.append(TestCaseData(
-            num=test_case_num, success=True,
+            num=test_case_num, success=success,
             expected=expected_output_lines,
             actual=actual_output_lines))
     clean_temp_dir()
@@ -202,6 +203,8 @@ def projects(project_num):
         user = User.objects.get({ 'email': g.auth['user']['email'] })
         user.submissions.append(submission)
         user.save()
+
+    print(num_passed, num_test_cases)
 
     return render_template(
         'testcases.html',

@@ -19,7 +19,9 @@
 </p>
 
 <p>Choose the project you want to test:</p>
-<a href="{{ url_for('projects.projects', project_num=0) }}">p0</a>
-<a href="{{ url_for('projects.projects', project_num=1) }}">p1</a>
+<a href="{{ url_for('projects.projects', project_name='p0') }}">p0</a>
+<a href="{{ url_for('projects.projects', project_name='p1') }}">p1</a>
+<a href="{{ url_for('projects.projects', project_name='p2ordered') }}">p2ordered</a>
+<a href="{{ url_for('projects.projects', project_name='p2open') }}">p2open</a>
 
 {% endblock %}
