@@ -24,7 +24,8 @@ project_exec_dict = {
     'p0': 'playlistdriver',
     'p1': 'dequedriver',
     'p2ordered': 'orderedhtdriver',
-    'p2open': 'openhtdriver'
+    'p2open': 'openhtdriver',
+    'p3': 'qttest'
 }
 
 
