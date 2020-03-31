@@ -25,7 +25,8 @@ project_exec_dict = {
     'p1': 'dequedriver',
     'p2ordered': 'orderedhtdriver',
     'p2open': 'openhtdriver',
-    'p3': 'qtdriver'
+    'p3': 'qtdriver',
+    'p4': 'mstdriver'
 }
 
 
