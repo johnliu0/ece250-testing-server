@@ -26,7 +26,8 @@ project_exec_dict = {
     'p2ordered': 'orderedhtdriver',
     'p2open': 'openhtdriver',
     'p3': 'qtdriver',
-    'p4': 'mstdriver'
+    'p4': 'mstdriver',
+    'p5': 'undirectedGraphdriver'
 }
 
 
@@ -61,7 +62,8 @@ def projects(project_name):
 
     # remove temp dir and its contents
     def clean_temp_dir():
-        shutil.rmtree(temp_dir)
+        pass
+        #shutil.rmtree(temp_dir)
 
     # todo; improve this, allow folders, etc.
     # # check if a file has an allowed extension
@@ -162,9 +164,9 @@ def projects(project_name):
             stderr=subprocess.PIPE)
         test_case_num += 1
 
-        # attempt to run the test case with a time limit of 0.5s
+        # attempt to run the test case with a time limit of 1.0s
         try:
-            test_process.wait(timeout=0.5)
+            test_process.wait(timeout=1.0)
         except TimeoutExpired as e:
             test_case_data.append(TestCaseData(
                 num=test_case_num,

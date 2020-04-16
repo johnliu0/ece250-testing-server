@@ -3,19 +3,20 @@
 
 {% include 'navbar.html' %}
 
-<p><em>Please do not mess up my testing server. This ruins it for everybody. Thanks!</em></p>
+<p>COVID-19 update: please stay safe and be cautious of any interactions you have with people. -John</p>
+
+<p><em>Please do not purposefully mess up my testing server. This ruins it for everybody. Thanks!</em></p>
 <h1>ECE250 (Winter 2020) Testing Server</h1>
 
 <p>
   Hi. Feel free to use this server to test your ECE 250 projects. You can upload
-  your source code and it will be automatically compiled and compared against
-  various test cases. You can contribute to the test cases at
-  <a href="https://github.com/ece23/ECE250-testCases" target="_blank" rel="noopener noreferrer">https://github.com/ece23/ECE250-testCases</a>.
-  Anyone is free to contribute to the development of test cases!
+  your source code and it will be automatically compiled against the given test cases.
 </p>
 
 <p>
+<strong>
   Author: John Liu
+</strong>
 </p>
 
 <p>Choose the project you want to test:</p>
@@ -25,5 +26,6 @@
 <a href="{{ url_for('projects.projects', project_name='p2open') }}">p2open</a>
 <a href="{{ url_for('projects.projects', project_name='p3') }}">p3</a>
 <a href="{{ url_for('projects.projects', project_name='p4') }}">p4</a>
+<a href="{{ url_for('projects.projects', project_name='p5') }}">p5 (note: make sure your executable is called undirectedGraphdriver with a capital G - this is how its written in the documents)</a>
 
 {% endblock %}
